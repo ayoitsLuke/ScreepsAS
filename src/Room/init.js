@@ -243,3 +243,27 @@ function roomCallbackPrioritizeRoad(roomName, opts) {
     });
   return costs;
 }
+
+function radiusDistance(centerPos, maxR) {
+  var rv = new RoomVisual(centerPos.roomName);
+  for (var r = 1; r <= maxR; r++) {
+    for (var i = 0; i < r * 2 + 1; i++) {
+      rv.text(r, centerPos.x - r + i, centerPos.y - r, {
+        color: 'green',
+        font: 0.8
+      });
+      rv.text(r, centerPos.x + r, centerPos.y - r + i, {
+        color: 'green',
+        font: 0.8
+      });
+      rv.text(r, centerPos.x + r - i, centerPos.y + r, {
+        color: 'green',
+        font: 0.8
+      });
+      rv.text(r, centerPos.x - r, centerPos.y + r - i, {
+        color: 'green',
+        font: 0.8
+      });
+    }
+  }
+}

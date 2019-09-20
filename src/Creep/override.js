@@ -50,7 +50,7 @@ if (!Creep.prototype._say) {
 };
 
 if (!Creep.prototype._attack) {
-  const trashTalk = ["Omae wa mou shindeiru!", "?", "To forgive you is up to God", ];
+  const trashTalk = ["Omae wa mou shindeiru", "?", "Your end is near", "See ya in hell","You need a healer","RIP"];
   Creep.prototype._attack = Creep.prototype.attack;
   /**
    * trash talk

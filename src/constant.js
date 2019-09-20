@@ -1,6 +1,8 @@
 "use strict";
 global.DEBUG = true;
 
+global.sign = ["Make sign, not war", "Make love, not sign", "This is a sign", "This is/was my room", "Shouldn't you be working instead of playing this game?", "Still coding after work? Get a life", "What if we're the invaders?", 'So we massacre them, rob their resources, and call them "Invader"?', "Roses are red, violets are blue. My code is bad, yours better?", "Sign this, sign that, like the kiddo in the White House", "You just wasted 1 sec of your life reading this sign", "NO U wU", "Are you master of your creeps, or slave of this game?", "Playing this game === life--", "This game runs on Javascript? Ewww", "Debug your brain first, then your code", "The bug is in your brain, not your code","The owner of this room is too lazy to change his sign", ];
+
 global.MY_USERNAME = Object.values(Game.rooms)
   .find(r => r.controller && r.controller.my)
   .controller.owner.username;
