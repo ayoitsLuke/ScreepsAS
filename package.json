@@ -39,6 +39,7 @@
     "grunt-jsbeautifier": "^0.2.13",
     "grunt-rsync": "^3.0.0",
     "grunt-screeps-new": "^1.0.0",
+    "simple-statistics": "^7.0.5",
     "time-grunt": "^2.0.0"
   },
   "devDependencies": {
