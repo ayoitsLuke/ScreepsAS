@@ -22,9 +22,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks("grunt-contrib-clean");
   grunt.loadNpmTasks("grunt-contrib-copy");
-  grunt.loadNpmTasks("grunt-contrib-uglify");
+  grunt.loadNpmTasks("grunt-contrib-uglify-es");
   grunt.loadNpmTasks("grunt-file-append");
-  grunt.loadNpmTasks("grunt-jsbeautifier");
   grunt.loadNpmTasks("grunt-rsync");
   grunt.loadNpmTasks("grunt-screeps-new");
 
@@ -45,7 +44,7 @@ module.exports = function(grunt) {
         ptr: ptr
       },
       dist: {
-        src: ['dist/*.js']
+        src: ["dist/*.{js,wasm}"]
       }
     },
 
@@ -62,10 +61,7 @@ module.exports = function(grunt) {
           src: "**",
           dest: "dist/",
           filter: "isFile",
-          rename: function(dest, src) {
-            // Change the path name utilize underscores for folders
-            return dest + src.replace(/\//g, ".");
-          }
+          rename: (dest, src) => dest + src.replace(/\//g, "_"),
         }],
       }
     },
@@ -92,7 +88,7 @@ module.exports = function(grunt) {
     file_append: {
       versioning: {
         files: [{
-          append: "\nglobal.SCRIPT_VERSION = " + currentdate.getTime() + "\n",
+          append: "global.SCRIPT_VERSION = " + currentdate.getTime() + "\n",
           input: "dist/version.js",
         }]
       }
@@ -100,15 +96,15 @@ module.exports = function(grunt) {
 
 
     // Remove all files from the dist folder.
-    clean: {
-      "dist": ["dist"]
-    },
+    clean: ["dist/**"],
 
 
     // Documentation
     jsdoc: {
       dist: {
-        src: ['src/*.js', 'test/*.js'],
+        cwd: "src",
+        src: ["**/*.js"],
+        expand: true,
         options: {
           destination: 'doc'
         }
@@ -116,43 +112,32 @@ module.exports = function(grunt) {
     },
 
 
-    // Apply code styling
-    jsbeautifier: {
-      modify: {
-        src: ["src/**/*.js"],
-        options: {
-          config: ".jsbeautifyrc"
-        }
+    // Compress code
+    uglify: {
+      dynamic_mappings: {
+        // Grunt will search for "**/*.js" under "stc/" when the "uglify" task
+        // runs and build the appropriate src-dest file mappings then, so you
+        // don't need to update the Gruntfile when files are added or removed.
+        files: [{
+          expand: true, // Enable dynamic expansion.
+          cwd: 'src/', // Src matches are relative to this path.
+          src: ['**', "!lib(trackable)/**/*"], // Actual pattern(s) to match.
+          dest: 'dist/', // Destination path prefix.
+          filter: "isFile",
+          ext: '.js', // Dest filepaths will have this extension.
+          extDot: 'first', // Extensions in filenames begin after the first dot
+          rename: (dest, src) => dest + src.replace(/\//g, "_"),
+
+        }, ],
       },
-      verify: {
-        src: ["src/**/*.js"],
-        options: {
-          mode: "VERIFY_ONLY",
-          config: ".jsbeautifyrc"
-        }
-      }
     },
 
 
-    // Compress code
-    uglify: {
-      buildb: { //任务二：压缩b.js，输出压缩信息
-        options: {
-          report: "min" //输出压缩率，可选的值有 false(不输出信息)，gzip
-        },
-        files: {
-          'output/js/b.min.js': ['js/main/b.js']
-        }
-      },
-    }
-
-
-  })
-
+  });
   // Combine the above into a default task
   grunt.registerTask("default", ["clean", "copy:screeps", "file_append:versioning", "screeps"]);
-  grunt.registerTask("fake", ["clean", "copy:screeps", "file_append:versioning", "jsdoc"]);
+  grunt.registerTask("drill", ["clean", "copy:screeps", "file_append:versioning,"]);
   grunt.registerTask("private", ["clean", "copy:screeps", "file_append:versioning", "rsync:private"]);
-  grunt.registerTask("test", ["jsbeautifier:verify"]);
-  grunt.registerTask("pretty", ["jsbeautifier:modify"]);
+  grunt.registerTask("ugly", ["clean", "uglify", "file_append:versioning", "screeps"]);
+  grunt.registerTask("doc", ["jsdoc"])
 }

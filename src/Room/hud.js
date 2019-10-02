@@ -1,5 +1,5 @@
 "use strict";
-const renderIntelMap = require("lib.RenderIntelMap.RenderIntelMap");
+const renderIntelMap = require("lib_RenderIntelMap_RenderIntelMap");
 
 Room.prototype.hud = function(room, creeps) {
   try {

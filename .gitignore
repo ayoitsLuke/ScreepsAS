@@ -1,8 +1,9 @@
 # Junks and confidentials #
 ###########################
-*multimeter*
 .screeps.json
+*multimeter*
 dist/**
+doc/**
 node_modules/**
 # src/lib(trackable)/**/**/
 

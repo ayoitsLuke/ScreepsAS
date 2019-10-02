@@ -1,5 +1,5 @@
 "use strict";
-const utils = require("lib.EngineUtils");
+const utils = require("lib_EngineUtils");
 
 if (!Creep.prototype._moveTo) {
   Creep.prototype._moveTo = Creep.prototype.moveTo;

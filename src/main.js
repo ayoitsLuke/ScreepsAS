@@ -9,7 +9,7 @@ if (!Memory.roomObjects) Memory.roomObjects = {};
 require("require")
 
 /** @var profiler  modules that you use that modify the game 's prototypes should be require"d before you require the profiler. */
-const profiler = require("lib.Profiler");
+const profiler = require("lib_Profiler");
 profiler.enable();
 
 /** Main loop */

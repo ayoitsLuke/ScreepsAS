@@ -5,7 +5,7 @@
  * @param  {Object[]}  homeTasks current task, repeat push task prevention
  * @return  {Object[]}  A list of tasks
  */
-const utils = require("lib.EngineUtils");
+const utils = require("lib_EngineUtils");
 Room.prototype.gatherRequests = function(homeTasks) {
   let tasks = [];
   // find tombstone
