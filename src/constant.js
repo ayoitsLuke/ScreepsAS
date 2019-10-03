@@ -1,7 +1,7 @@
 "use strict";
 global.DEBUG = true;
 
-global.sign = ["Make sign, not war", "Make love, not sign", "This is a sign", "Hey! This is/was my room!", "Shouldn't you be working instead of playing this game?", "Still coding after work? Get a life", "What if we're the invaders?", 'We colonize their land, stole their resources, massacre their kind, and we call them "Invader"?', "Roses are red, violets are blue. My code is bad, yours better?", "Sign this, sign that, like the kiddo in the White House", "You just wasted part of your life reading this sign", "NO U wU", "Are you the master of your creeps, or the slave of this game?", "Play this game === life--", "This game runs on Javascript? Ewww", "Debug your brain, then your code", "The bug is your brain!!! Not your code!", "The owner of this room is too lazy to change this sign", "This room is nukeable... Hell! Every room is nukeable", "Friendly reminder: Make sure your `activateSafeMode()` is on auto triggered", "Friendly reminder: Check room for nuke in code every once a while", "This place is quite peaceful normally, but don't assume it'll always be like this", "Friendly reminder: First nuke, first lands", "Friendly reminder: There's a decent amout of players like to nuke hitchhikers",];
+global.sign = ["Make sign, not war", "Make love, not sign", "This is a sign", "Hey! This is/was my room!", "Shouldn't you be working instead of playing this game?", "Still coding after work? Get a life", "What if we're the invaders?", 'We colonize their land, stole their resources, massacre their kind, and we call them "Invader"?', "Roses are red, violets are blue. My code is bad, yours better?", "Sign this, sign that, like the kiddo in the White House", "You just wasted part of your life reading this sign", "NO U wU", "Are you the master of your creeps, or the slave of this game?", "Play this game === life--", "This game runs on Javascript? Ewww", "Debug your brain, then your code", "The bug is your brain!!! Not your code!", "The owner of this room is too lazy to change this sign", "This room is nukeable... Hell! Every room is nukeable", "Friendly reminder: Make sure your `activateSafeMode()` is on auto triggered", "Friendly reminder: Check room for nuke in code every once a while", "This place is quite peaceful normally, but don't assume it'll always be like this", "Friendly reminder: First nuke, first lands", "Friendly reminder: Hitchhiking others code will be nuked (not by me tho)", ];
 
 global.MY_USERNAME = Object.values(Game.rooms)
   .find(r => r.controller && r.controller.my)
@@ -18,7 +18,7 @@ global.SOURCE_HARVEST_PARTS_KEEPER = SOURCE_ENERGY_KEEPER_CAPACITY / HARVEST_POW
 global.TIMER = {
   defconDowngrade: 50,
   gc: CREEP_LIFE_TIME * 1.5,
-  intel: POWER_BANK_DECAY / 2,
+  intel: POWER_BANK_DECAY * 0.5,
   productivity: 150,
   randomness: 0.05,
   scan: 10,

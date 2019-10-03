@@ -22,6 +22,14 @@ Structure.prototype.generateRequests = function() {
   let requests = [];
   switch (this.structureType) {
     case STRUCTURE_CONTROLLER:
+      if (this.sign && this.sign.username !== MY_USERNAME) {
+        requests.push({
+          action: "signController",
+          resource: {
+            resourceType: _.sample(sign)
+          }
+        })
+      }
       if (this.room.type === "my" && (this.level < 8 || this.ticksToDowngrade < CONTROLLER_DOWNGRADE_SAFEMODE_THRESHOLD)) requests.push({
         action: "upgradeController",
         resource: {
@@ -110,7 +118,7 @@ Structure.prototype.generateRequests = function() {
       }
       break;
 
-    // case STRUCTURE_ROAD:
+      // case STRUCTURE_ROAD:
       if (this.hitsMax - this.hits > this.home.spawns[0].getBodyFor("Constructor_m_hc")
         .reduce((t, p) => t + (p === WORK), 0)) {
         requests.push({

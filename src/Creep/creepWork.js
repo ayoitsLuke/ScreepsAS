@@ -285,8 +285,8 @@ Creep.prototype.go_ = function(action, target = this, resource = {
   resourceType: _.findLastKey(this.carry)
 }) {
   // block other action if being pulled
-  if (this.memory.pulled) {
-    this.memory.pulled = false;
+  if (this.pulled) {
+    this.pulled = false;
     return ERR_TIRED;
   }
 
@@ -311,7 +311,7 @@ Creep.prototype.go_ = function(action, target = this, resource = {
       // special case (pull): addition action
       const targetTask = target.memory.task;
       if (!targetTask) return ERR_INVALID_ARGS;
-      target.memory.pulled = true;
+      target.pulled = true;
       // target.cancelOrder(MOVE); // DEBUG
       target.move(this);
       const targetActionRange = CREEP_ACTION[targetTask.action].range
@@ -332,6 +332,7 @@ Creep.prototype.go_ = function(action, target = this, resource = {
 
 
     const errMsg = this[action](target, resource.resourceType /* , resource.amount */ ); // FIXME resource.amount is the target's amout not the amount creep can carry
+
 
     if ((action === "repair" || action === "heal") && target.hits >= target.hitsMax) {
       // special case (repair/heal): prevent overflow

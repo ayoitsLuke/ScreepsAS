@@ -114,7 +114,7 @@ module.exports = function(grunt) {
 
     // Compress code
     uglify: {
-      dynamic_mappings: {
+      compress: {
         // Grunt will search for "**/*.js" under "stc/" when the "uglify" task
         // runs and build the appropriate src-dest file mappings then, so you
         // don't need to update the Gruntfile when files are added or removed.
@@ -138,6 +138,6 @@ module.exports = function(grunt) {
   grunt.registerTask("default", ["clean", "copy:screeps", "file_append:versioning", "screeps"]);
   grunt.registerTask("drill", ["clean", "copy:screeps", "file_append:versioning,"]);
   grunt.registerTask("private", ["clean", "copy:screeps", "file_append:versioning", "rsync:private"]);
-  grunt.registerTask("ugly", ["clean", "uglify", "file_append:versioning", "screeps"]);
+  grunt.registerTask("ugly", ["clean", "uglify:compress", "file_append:versioning", "screeps"]);
   grunt.registerTask("doc", ["jsdoc"])
 }

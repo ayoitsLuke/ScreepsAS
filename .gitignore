@@ -2,8 +2,8 @@
 ###########################
 .screeps.json
 *multimeter*
-dist/**
-doc/**
+/dist/**
+/doc/**
 node_modules/**
 # src/lib(trackable)/**/**/
 
