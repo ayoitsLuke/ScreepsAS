@@ -61,6 +61,9 @@ class Traveler {
       options.stuckValue = DEFAULT_STUCK_VALUE;
     }
     if (state.stuckCount >= options.stuckValue && Math.random() > .5) {
+      // ? check pos moving to, if it's creep, swap place w/ the blocking creep.
+      // ^ find & lookFor(LOOK_CREEP) on next pos
+
       options.ignoreCreeps = false;
       options.freshMatrix = true;
       travelData.path = undefined;

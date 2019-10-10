@@ -196,6 +196,9 @@ Object.defineProperties(Room.prototype, {
     }
   }
 });
+
+Room.prototype.work = function() {}
+
 /**
  * [area description]
  *
