@@ -1,6 +1,7 @@
 # Junks and confidentials #
 ###########################
 .screeps.json
+screeps.json
 *multimeter*
 /dist/**
 /doc/**

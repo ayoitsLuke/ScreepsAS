@@ -1,52 +1,75 @@
 {
-  "name": "screepsas",
-  "version": "1.0.0",
-  "description": "Screeps script & developing environment setup",
-  "main": "main.js",
-  "directories": {
-    "lib": "src/lib"
-  },
-  "scripts": {
-    "start": "multimeter",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ayoitsLuke/ScreepsAS.git"
-  },
-  "keywords": [
-    "screeps",
-    "javascript"
-  ],
-  "author": "ayoitsLuke",
-  "private": true,
-  "license": "MIT",
-  "engines": {
-    "node": "8.9.3",
-    "mongodb": "3",
-    "redis": "3"
-  },
-  "bugs": {
-    "url": "https://github.com/ayoitsLuke/ScreepsAS/issues"
-  },
-  "homepage": "https://github.com/ayoitsLuke/ScreepsAS#readme",
-  "dependencies": {
-    "grunt": "^1.0.4",
-    "grunt-contrib-clean": "^2.0.0",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-uglify-es": "^3.3.0",
-    "grunt-file-append": "0.0.7",
-    "grunt-jsbeautifier": "^0.2.13",
-    "grunt-rsync": "^3.0.0",
-    "grunt-screeps-new": "^1.0.0",
-    "simple-statistics": "^7.0.5",
-    "time-grunt": "^2.0.0"
-  },
-  "devDependencies": {
-    "@types/lodash": "3.10.1",
-    "@types/node": "8.9.3",
-    "@types/screeps": "latest",
-    "grunt-jsdoc": "^2.4.0",
-    "screeps-multimeter": "^1.8.0"
-  }
+    "name": "screepsas",
+    "version": "2.0.0",
+    "description": "Screeps script & developing environment setup",
+    "main": "index.js",
+    "directories": {
+        "lib": "src/lib"
+    },
+    "scripts": {
+        "start": "multimeter",
+        "lint": "tslint -p tsconfig.json \"src/**/*.ts\"",
+        "build": "rollup -c",
+        "push-main": "rollup -c --environment DEST:main",
+        "push-pserver": "rollup -c --environment DEST:pserver",
+        "push-sim": "rollup -c --environment DEST:sim",
+        "test": "npm run test-unit && npm run test-integration",
+        "test-unit": "rollup -c rollup.test-unit-config.js && mocha dist/test-unit.bundle.js",
+        "test-integration": "npm run build && rollup -c rollup.test-integration-config.js && mocha dist/test-integration.bundle.js",
+        "watch-main": "rollup -cw --environment DEST:main",
+        "watch-pserver": "rollup -cw --environment DEST:pserver",
+        "watch-sim": "rollup -cw --environment DEST:sim"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ayoitsLuke/ScreepsAS.git"
+    },
+    "keywords": [
+        "screeps",
+        "typescript"
+    ],
+    "author": "ayoitsLuke",
+    "private": true,
+    "license": "MIT",
+    "engines": {
+        "node": "10.*",
+        "mongodb": "3",
+        "redis": "3"
+    },
+    "bugs": {
+        "url": "https://github.com/ayoitsLuke/ScreepsAS/issues"
+    },
+    "homepage": "https://github.com/ayoitsLuke/ScreepsAS#readme",
+    "devDependencies": {
+        "@types/chai": "^4.1.6",
+        "@types/lodash": "^3.10.1",
+        "@types/mocha": "^5.2.5",
+        "@types/node": "^10.5.5",
+        "@types/screeps": "^2.5.5",
+        "@types/sinon": "^5.0.5",
+        "@types/sinon-chai": "^3.2.0",
+        "chai": "^4.2.0",
+        "lodash": "^3.10.1",
+        "mocha": "^5.2.0",
+        "prettier": "^1.14.0",
+        "rollup": "^0.63.4",
+        "rollup-plugin-buble": "^0.19.4",
+        "rollup-plugin-clear": "^2.0.7",
+        "rollup-plugin-commonjs": "^9.1.4",
+        "rollup-plugin-multi-entry": "^2.0.2",
+        "rollup-plugin-node-resolve": "^3.3.0",
+        "rollup-plugin-nodent": "^0.2.2",
+        "rollup-plugin-screeps": "^0.1.2",
+        "rollup-plugin-typescript2": "^0.16.1",
+        "sinon": "^6.3.5",
+        "sinon-chai": "^3.2.0",
+        "ts-node": "^7.0.1",
+        "tslint": "^5.9.1",
+        "tslint-config-prettier": "^1.14.0",
+        "tslint-plugin-prettier": "^1.3.0",
+        "typescript": "^3.6.4"
+    },
+    "dependencies": {
+        "source-map": "~0.6.1"
+    }
 }

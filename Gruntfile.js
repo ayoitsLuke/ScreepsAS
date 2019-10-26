@@ -49,6 +49,22 @@ module.exports = function(grunt) {
     },
 
 
+    'ts': {
+      default: {
+        options: {
+          sourceMap: false,
+          // 编译到的目标版本
+          target: 'es6',
+          rootDir: "srcts/**/*.ts"
+        },
+        // 要进行编译的目录及文件
+        src: ["src/*.ts"],
+        // 编译好的文件的输出目录
+        outDir: 'dist/'
+      }
+    },
+
+
     // Copy all source files into the dist folder, flattening the folder
     // structure by converting path delimiters to underscores
     copy: {
