@@ -104,7 +104,7 @@ https://github.com/screeps/engine/blob/3b90d7f3f1318942298ce9d6f0cdee9ee30a9627/
 Because `driver = utils.getRuntimeDriver()`, globals might relate to `driver`. Goto "engine/src/utils" to see what is `getRuntimeDriver()`
 https://github.com/screeps/engine/blob/3b90d7f3f1318942298ce9d6f0cdee9ee30a9627/src/game/rooms.js#L3
 
-`utils.getRuntimeDriver()` rediect to "~runtime-driver", use this as keyword search in all screeps repo
+`utils.getRuntimeDriver()` redirect to "~runtime-driver", use this as keyword search in all screeps repo
 https://github.com/screeps/engine/blob/3b90d7f3f1318942298ce9d6f0cdee9ee30a9627/src/utils.js#L35
 
 Found, alias for "./lib/runtime/runtime-driver"

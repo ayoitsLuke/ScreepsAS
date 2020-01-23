@@ -1,0 +1,58 @@
+function Get-ScreepsMessages {
+    <#
+    .SYNOPSIS
+        Used to list Screeps messages.
+
+    .PARAMETER Token
+        Your screeps auth token. https://docs.screeps.com/auth-tokens.html
+
+    .PARAMETER Respondent
+        Used to filter messages by respondent id.
+
+    .NOTES
+        Version:        1.0
+        Author:         Chris Taylor
+        Creation Date:  12/16/2019
+        Purpose/Change: Initial script development
+
+    .EXAMPLE
+        Get-ScreepsMessages -Token $Token -Verbose
+        Outputs all messages and information about rate limit. 
+    #>
+    [cmdletbinding()]
+    param(
+        [Parameter(mandatory=$true)]
+        [string]$Token,
+        [string]$Respondent
+    )
+    $BaseURI = 'https://screeps.com/api/user/messages/index'
+    
+    $URI = $BaseURI
+    $Header = @{'X-Token' = $Token}
+
+    if ($Respondent) {
+        $URI += "?respondent=$Respondent"
+    }
+
+    try {
+        $Responce = iwr $URI -Headers $Header -ContentType 'application/json; charset=utf-8'
+    } 
+    catch {
+        Write-Error $_
+        break
+    }
+    
+    if ($Responce.StatusCode -ne 200) {
+        Write-Error $_
+        break
+    }
+
+    if ($VerbosePreference -eq 'Continue'){
+        $CurrentEpochTime = Get-Date (Get-Date).ToUniversalTime() -UFormat %s
+        $SecodsToReset = $Responce.Headers.'X-RateLimit-Reset' - $CurrentEpochTime
+        Write-Verbose "$($Responce.Headers.'X-RateLimit-Remaining')/$($Responce.Headers.'X-RateLimit-Limit') requests left, $([int]$SecodsToReset) seconds until counts reset."
+    }    
+    
+    return (ConvertFrom-Json $Responce.Content).messages.message
+}
+Get-ScreepsMessages -Token $Token -Verbose

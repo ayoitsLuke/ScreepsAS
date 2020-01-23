@@ -55,6 +55,7 @@ interface TravelState {
 }
 
 interface Creep {
+  home: any;
     travelTo(destination: HasPos | RoomPosition, ops?: TravelToOptions): number;
 }
 

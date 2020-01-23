@@ -1,5 +1,4 @@
-"use strict";
-const utils = require("lib_EngineUtils");
+import {calcCreepCost} from "../lib/EngineUtils";
 /**
  * Check spawnQueue and spawn creeps
  *
@@ -36,10 +35,7 @@ StructureSpawn.prototype.work = function() {
     Object.keys(Game.spawns).indexOf(this.name) +
     this.room.name +
     (Game.time % CREEP_LIFE_TIME);
-  const memory = {
-    ...egg,
-    pob: this.room.name,
-  };
+  const memory = Object.assign(Object.assign({}, egg), {pob: this.room.name});
   const energyStructures = [...this.room.extensions, ...this.room.spawns];
   const errMsg = this.spawnCreep(body, name, {
     energyStructures,
@@ -50,7 +46,6 @@ StructureSpawn.prototype.work = function() {
     this.room.energyAvailable -= body.reduce((t, p) => t + BODYPART_COST[p], 0);
   }
 };
-
 /**
  * [description]
  *
@@ -77,77 +72,76 @@ StructureSpawn.prototype.getBodyFor = function(type, urgent) {
  * TODO
  * Generate two basic components of a creep as [base, dlc]
  *
- * @param   {string}  type  the type name of a creep
+ * @param   {string}  role  creep role
  * @return  {string[]}  [base, dlc]
  */
-function components4(type) {
+function components4(role: CreepRole) {
   let base, dlc;
-  switch (type) {
+  switch (role) {
     /**
      * "Constructor" = creep has a lot of WORK
      * "s" = creep CANNOT move 1 tile/ tick on road when empty
      * "c" = high capacity
      */
     // Civilian
-    case "Constructor_s": // Constructor (stationary, low capacity)
+    case ROLE_CONSTRUCTOR_STA_lowCAP: // Constructor (stationary, low capacity)
       // ! Need hauler
       base = [CARRY, MOVE];
       dlc = [WORK];
       break;
-    case "Constructor_s_c": // Constructor (stationary, high capacity)
+    case ROLE_CONSTRUCTOR_STA_highCAP: // Constructor (stationary, high capacity)
       // ! Need hauler
       base = [CARRY, CARRY, WORK, WORK, MOVE];
       dlc = [CARRY, WORK, WORK];
       break;
-    case "Constructor": // Constructor (mobile, low capacity)
+    case ROLE_CONSTRUCTOR_MOB_lowCAP: // Constructor (mobile, low capacity)
       // harvester, high RCL upgrader (RCL >= 5)
       base = [CARRY, WORK, MOVE];
       dlc = [WORK, WORK, MOVE];
       break;
-    case "Constructor_c": // Constructor (mobile, high capacity)
+    case ROLE_CONSTRUCTOR_MOB_highCAP: // Constructor (mobile, high capacity)
       // ? maybe this is not effecient? pair a stationary constructor and logistician might be better?
       // repairer, builder, low RCL upgrader
       base = dlc = [CARRY, CARRY, WORK, WORK, MOVE];
       break;
-    case "Logistician_c":
+    case ROLE_LOGISTICIAN:
       base = [CARRY, WORK, MOVE];
       dlc = [CARRY, CARRY, MOVE];
       break;
     // High RCL creep
-    case "Creep_of_Science":
+    case ROLE_SCIENTIST:
       base = [CARRY, WORK, MOVE];
       dlc = [CARRY];
       break;
-    case "Reserver":
+    case ROLE_RESERVER:
       base = dlc = [CLAIM, CLAIM, MOVE]; // 1250 energy
       break;
-    case "Hauler": // find creep need help (creep.memory.haulRequested) & pull
+    case ROLE_HAULER: // find creep need help (creep.memory.haulRequested) & pull
       base = dlc = [MOVE];
       break;
-    case "Defender":
+    case ROLE_MILITIA:
       base = [HEAL, ATTACK, MOVE];
       dlc = [ATTACK, RANGED_ATTACK, MOVE];
       break;
-
     // Military
-    case "Rifleman":
+    case ROLE_RIFLEMAN:
       base = [RANGED_ATTACK, MOVE, HEAL, MOVE];
       dlc = [ATTACK, MOVE]; // 190 energy
       break;
-    case "Medic":
+    case ROLE_MEDIC:
       base = [RANGED_ATTACK, MOVE]; // 200 energy
       dlc = [HEAL, MOVE]; // 300 energy
       break;
     // Specialist
-    case "Sniper":
+    case ROLE_SNIPER:
       base = [HEAL, MOVE];
       dlc = [RANGED_ATTACK, MOVE];
-    case "Distractor_s":
+    case ROLE_SUPPLIER:
       // ! Need hauler
-      base = [RANGED_ATTACK, ATTACK, MOVE];
-      dlc = [HEAL];
+      base = [RANGED_ATTACK, MOVE];
+      dlc = [TOUGH, HEAL];
       break;
-    case "Combat_Engineer":
+    case ROLE_COMBAT_ENGINEER:
       base = [WORK, MOVE]; // 200 energy
       dlc = [WORK, MOVE]; // 210 energy
       break;
@@ -181,14 +175,11 @@ function fullBodyFrom(base, dlc, budget = 300) {
     parts.push(...dlc);
   }
   parts.push(...base);
-
   // sort
   const order = [TOUGH, CARRY, CLAIM, WORK, ATTACK, RANGED_ATTACK, HEAL, MOVE];
-
   // TODO preformance test
   let partsHolder = parts.map(e => order.indexOf(e));
   partsHolder.sort((a, b) => a - b);
   return partsHolder.map(e => order[e]);
-
   return parts.sort((a, b) => order.indexOf(a) - order.indexOf(b));
 }
