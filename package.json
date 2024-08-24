@@ -52,7 +52,7 @@
     "chai": "^4.2.0",
     "eslint": "x",
     "lodash": "3.10.1",
-    "mocha": "^5.2.0",
+    "mocha": "^10.7.3",
     "prettier": "^1.19.1",
     "rollup": "^0.63.4",
     "rollup-plugin-buble": "^0.19.4",
